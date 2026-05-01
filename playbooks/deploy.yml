@@ -1,0 +1,23 @@
+---
+# Main deployment playbook for Multica self-hosted
+- name: Deploy Multica (staging)
+  hosts: staging
+  become: true
+  gather_facts: true
+
+  roles:
+    - role: docker
+    - role: multica-db
+    - role: multica-backend
+    - role: multica-frontend
+
+  tasks:
+    - name: Verify all services are running
+      community.docker.docker_compose_v2:
+        project_src: /opt/multica
+        state: present
+      register: result
+
+    - name: Display service status
+      ansible.builtin.debug:
+        var: result

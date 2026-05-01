@@ -1,0 +1,35 @@
+---
+# Staging environment variables — ai-core-system-bot-stg
+
+# GCP
+gcp_project: ai-core-system-bot-stg
+gcp_region: asia-southeast2
+gcp_zone: asia-southeast2-a
+
+# Multica
+multica_version: latest
+multica_image_tag: latest
+multica_backend_image: ghcr.io/multica-ai/multica-backend
+multica_web_image: ghcr.io/multica-ai/multica-web
+
+# PostgreSQL
+postgres_db: multica
+postgres_user: multica
+postgres_port: 5432
+
+# Backend
+backend_port: 8080
+frontend_port: 3000
+app_env: production
+allow_signup: "false"
+
+# Frontend origin — update after DNS/SSL setup
+frontend_origin: "http://localhost:3000"
+multica_app_url: "http://localhost:3000"
+
+# Email (Resend) — configure for production auth
+# resend_api_key: ""  # set in vault/secrets
+# resend_from_email: "noreply@multica.yourdomain.com"
+
+# Security
+# jwt_secret: ""  # set in vault/secrets — generate with: openssl rand -hex 32
