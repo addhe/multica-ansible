@@ -1,0 +1,4 @@
+---
+multica_cli_version: latest
+backend_port: "{{ backend_port }}"
+frontend_port: "{{ frontend_port }}"

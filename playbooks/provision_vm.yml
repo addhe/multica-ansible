@@ -1,0 +1,41 @@
+---
+- name: Provision GCP Spot Instance
+  google.cloud.gcp_compute_instance:
+    name: "{{ vm_name }}"
+    project: "{{ gcp_project }}"
+    zone: "{{ gcp_zone }}"
+    machine_type: "{{ vm_machine_type | default('e2-medium') }}"
+    scheduling:
+      provisioning_model: SPOT
+      on_host_maintenance: TERMINATE
+    labels:
+      env: "{{ env }}"
+      role: "{{ vm_role | default('multica') }}"
+      cost_center: "{{ cost_center | default('randomops') }}"
+    disks:
+      - auto_delete: true
+        boot: true
+        initialize_params:
+          source_image: projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts
+          disk_size_gb: "{{ vm_disk_size | default(30) }}"
+    network_interfaces:
+      - network:
+          selfLink: "projects/{{ gcp_project }}/global/networks/default"
+        access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+    service_accounts:
+      - email: "{{ vm_service_account | default('default') }}"
+        scopes:
+          - https://www.googleapis.com/auth/cloud-platform
+    state: present
+  register: vm_result
+
+- name: Wait for SSH
+  ansible.builtin.wait_for:
+    port: 22
+    delay: 10
+    timeout: 300
+
+- name: Run setup_base on new VM
+  ansible.builtin.import_playbook: setup_base.yml

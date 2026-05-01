@@ -1,0 +1,37 @@
+---
+# base-role defaults — Environment Agnostic
+# Override via inventory/group_vars/all.yml per environment
+
+base_packages:
+  - curl
+  - git
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - python3
+  - python3-pip
+  - python3-venv
+  - apt-transport-https
+  - software-properties-common
+  - unzip
+  - htop
+  - tmux
+  - vim
+
+ntp_servers:
+  - time.google.com
+  - time.cloudflare.com
+
+ssh_hardening:
+  disable_root_login: true
+  disable_password_auth: true
+  max_auth_tries: 3
+  permit_empty_passwords: false
+
+kernel_patch:
+  auto_update: true
+  auto_reboot: false
+  reboot_if_needed: false
+
+monitoring_agent:
+  install: true

@@ -1,0 +1,69 @@
+---
+# base-role — Applied to ALL VMs without exception
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install base packages
+  ansible.builtin.apt:
+    name: "{{ base_packages }}"
+    state: present
+
+- name: Configure NTP
+  ansible.builtin.template:
+    src: timesyncd.conf.j2
+    dest: /etc/systemd/timesyncd.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart timesyncd
+
+- name: Ensure systemd-timesyncd is running
+  ansible.builtin.service:
+    name: systemd-timesyncd
+    state: started
+    enabled: true
+
+- name: SSH hardening
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    validate: "sshd -t -f %s"
+  loop:
+    - { regexp: "^#?PermitRootLogin", line: "PermitRootLogin {{ 'no' if ssh_hardening.disable_root_login else 'yes' }}" }
+    - { regexp: "^#?PasswordAuthentication", line: "PasswordAuthentication {{ 'no' if ssh_hardening.disable_password_auth else 'yes' }}" }
+    - { regexp: "^#?MaxAuthTries", line: "MaxAuthTries {{ ssh_hardening.max_auth_tries }}" }
+    - { regexp: "^#?PermitEmptyPasswords", line: "PermitEmptyPasswords {{ 'no' if ssh_hardening.permit_empty_passwords else 'yes' }}" }
+  notify: Restart sshd
+
+- name: Configure unattended-upgrades
+  ansible.builtin.template:
+    src: 50unattended-upgrades.j2
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+    owner: root
+    group: root
+    mode: "0644"
+  when: kernel_patch.auto_update | bool
+
+- name: Install GCP Ops Agent (monitoring)
+  ansible.builtin.apt:
+    deb: "https://packages.cloud.google.com/apt/pool/google-cloud-ops-agent_latest_amd64.deb"
+  when: monitoring_agent.install | bool
+  ignore_errors: true
+
+- name: Ensure Ops Agent is running
+  ansible.builtin.service:
+    name: google-cloud-ops-agent
+    state: started
+    enabled: true
+  when: monitoring_agent.install | bool
+  ignore_errors: true
+
+- name: Set hostname from GCP instance name
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+  when: inventory_hostname is defined

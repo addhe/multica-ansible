@@ -1,0 +1,39 @@
+---
+# Production Environment Variables — ai-core-system-bot-prd
+# All variables live here. Roles must be agnostic — no hardcoding.
+
+# GCP
+gcp_project: ai-core-system-bot-prd
+gcp_region: asia-southeast2
+gcp_zone: asia-southeast2-a
+
+# Environment identifier
+env: production
+
+# Multica
+multica_version: latest
+multica_image_tag: latest
+multica_backend_image: ghcr.io/multica-ai/multica-backend
+multica_web_image: ghcr.io/multica-ai/multica-web
+
+# PostgreSQL
+postgres_db: multica
+postgres_user: multica
+postgres_port: 5432
+
+# Backend / Frontend ports
+backend_port: 8080
+frontend_port: 3000
+
+# App settings
+app_env: production
+allow_signup: "false"
+
+# URLs — update with production domain
+frontend_origin: "https://multica.yourdomain.com"
+multica_app_url: "https://multica.yourdomain.com"
+
+# Secrets are in vault-encrypted files — NEVER hardcode here
+# postgres_password: "{{ vault_postgres_password }}"
+# jwt_secret: "{{ vault_jwt_secret }}"
+# resend_api_key: "{{ vault_resend_api_key }}"

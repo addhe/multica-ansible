@@ -1,0 +1,9 @@
+*.retry
+.vault_password
+*.swp
+.DS_Store
+__pycache__/
+.molecule/
+*.log
+.env
+secrets.yml

@@ -1,0 +1,4 @@
+---
+multica_web_image: "{{ multica_web_image }}"
+multica_image_tag: "{{ multica_image_tag }}"
+frontend_port: "{{ frontend_port }}"

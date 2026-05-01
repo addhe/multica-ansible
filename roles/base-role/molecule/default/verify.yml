@@ -1,0 +1,24 @@
+---
+- name: Verify base-role
+  hosts: all
+  become: true
+  tasks:
+    - name: Check NTP service is running
+      ansible.builtin.service:
+        name: systemd-timesyncd
+        state: started
+      check_mode: true
+      register: ntp_result
+      failed_when: ntp_result.changed
+    - name: Check SSH config exists
+      ansible.builtin.stat:
+        path: /etc/ssh/sshd_config
+      register: ssh_config
+      failed_when: not ssh_config.stat.exists
+    - name: Verify base packages installed
+      ansible.builtin.package:
+        name: curl
+        state: present
+      check_mode: true
+      register: pkg_result
+      failed_when: pkg_result.changed

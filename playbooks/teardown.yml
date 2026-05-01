@@ -1,16 +1,13 @@
 ---
-# Tear down Multica services (keeps data volumes)
 - name: Tear down Multica
-  hosts: staging
+  tag_env_staging
   become: true
   gather_facts: true
-
   tasks:
     - name: Stop all services
       community.docker.docker_compose_v2:
         project_src: /opt/multica
         state: absent
-
     - name: Confirm services stopped
       ansible.builtin.debug:
-        msg: "Multica services stopped. Data volumes preserved."
+        msg: Multica services stopped. Data volumes preserved.

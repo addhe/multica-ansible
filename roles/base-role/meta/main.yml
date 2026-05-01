@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: RandomOps
+  description: Base role applied to ALL VMs — hardening, OS updates, NTP, monitoring
+  company: RandomOps
+  license: MIT
+  min_ansible_version: "2.15"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+        - noble
+  galaxy_tags:
+    - base
+    - hardening
+    - gcp
+    - monitoring
+
+dependencies: []

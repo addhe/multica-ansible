@@ -1,0 +1,15 @@
+---
+- name: Deploy Multica frontend
+  community.docker.docker_container:
+    name: multica-frontend
+    image: "{{ multica_web_image }}:{{ multica_image_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "{{ frontend_port }}:3000"
+    env:
+      HOSTNAME: "0.0.0.0"
+    networks:
+      - name: multica-net
+    depends_on:
+      - multica-backend

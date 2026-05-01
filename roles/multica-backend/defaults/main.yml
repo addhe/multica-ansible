@@ -1,0 +1,4 @@
+---
+multica_backend_image: "{{ multica_backend_image }}"
+multica_image_tag: "{{ multica_image_tag }}"
+backend_port: "{{ backend_port }}"

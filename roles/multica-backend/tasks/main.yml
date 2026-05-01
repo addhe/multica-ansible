@@ -1,0 +1,24 @@
+---
+- name: Deploy .env config
+  ansible.builtin.template:
+    src: .env.j2
+    dest: /opt/multica/.env
+    owner: multica
+    group: multica
+    mode: "0600"
+
+- name: Deploy Multica backend
+  community.docker.docker_container:
+    name: multica-backend
+    image: "{{ multica_backend_image }}:{{ multica_image_tag }}"
+    state: started
+    restart_policy: unless-stopped
+    published_ports:
+      - "{{ backend_port }}:8080"
+    env_file: /opt/multica/.env
+    volumes:
+      - backend_uploads:/app/data/uploads
+    networks:
+      - name: multica-net
+    depends_on:
+      - multica-postgres

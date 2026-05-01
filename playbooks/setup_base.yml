@@ -1,0 +1,7 @@
+---
+- name: Apply base configuration to all VMs
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - role: base-role

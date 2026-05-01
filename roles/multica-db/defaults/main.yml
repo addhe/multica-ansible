@@ -1,0 +1,6 @@
+---
+postgres_db: "{{ postgres_db }}"
+postgres_user: "{{ postgres_user }}"
+postgres_password: "{{ vault_postgres_password }}"
+postgres_port: "{{ postgres_port }}"
+postgres_image: pgvector/pgvector:pg17
