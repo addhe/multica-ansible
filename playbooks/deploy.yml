@@ -1,8 +1,8 @@
 ---
-- name: Deploy Multica
-  tag_env_staging
+- name: Deploy Multica (staging)
   become: true
   gather_facts: true
+  hosts: all
   roles:
     - role: base-role
     - role: multica-db

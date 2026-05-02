@@ -37,7 +37,7 @@
     - { regexp: "^#?PermitRootLogin", line: "PermitRootLogin {{ 'no' if ssh_hardening.disable_root_login else 'yes' }}" }
     - { regexp: "^#?PasswordAuthentication", line: "PasswordAuthentication {{ 'no' if ssh_hardening.disable_password_auth else 'yes' }}" }
     - { regexp: "^#?MaxAuthTries", line: "MaxAuthTries {{ ssh_hardening.max_auth_tries }}" }
-    - { regexp: "^#?PermitEmptyPasswords", line: "PermitEmptyPasswords {{ 'no' if ssh_hardening.permit_empty_passwords else 'yes' }}" }
+    - { regexp: "^#?PermitEmptyPasswords", line: "PermitEmptyPasswords {{ 'yes' if ssh_hardening.permit_empty_passwords else 'no' }}" }
   notify: Restart sshd
 
 - name: Configure unattended-upgrades
