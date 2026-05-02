@@ -20,6 +20,10 @@
     mode: "0644"
   notify: Restart timesyncd
 
+- name: Install systemd-timesyncd
+  ansible.builtin.apt:
+    name: systemd-timesyncd
+    state: present
 - name: Unmask systemd-timesyncd
   ansible.builtin.systemd:
     name: systemd-timesyncd
