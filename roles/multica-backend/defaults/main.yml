@@ -1,4 +1,4 @@
 ---
-multica_backend_image: "{{ multica_backend_image }}"
-multica_image_tag: "{{ multica_image_tag }}"
-backend_port: "{{ backend_port }}"
+multica_backend_image: ghcr.io/multica-ai/multica-backend
+multica_image_tag: latest
+backend_port: 8080

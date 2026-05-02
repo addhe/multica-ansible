@@ -9,11 +9,3 @@
   ansible.builtin.shell: /tmp/multica_install.sh
   args:
     creates: /usr/local/bin/multica
-
-- name: Configure Multica CLI for self-h
-  ansible.builtin.command: >
-    multica setup self-h
-      --server-url http://localhost:{{ backend_port }}
-      --app-url http://localhost:{{ frontend_port }}
-  become_user: multica
-  ignore_errors: true

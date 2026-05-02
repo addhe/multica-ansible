@@ -11,10 +11,16 @@
     - role: multica-cli
   tasks:
     - name: Verify all services running
-      community.docker.docker_compose_v2:
-        project_src: /opt/multica
-        state: present
-      register: result
+      community.docker.docker_container_info:
+        name: "{{ item }}"
+      register: container_status
+      loop:
+        - multica-postgres
+        - multica-backend
+        - multica-frontend
+      failed_when: container_status.container.State.Running != true
+
     - name: Display service status
       ansible.builtin.debug:
-        var: result
+        msg: "{{ item.container.Name }} — {{ item.container.State.Status }}"
+      loop: "{{ container_status.results }}"

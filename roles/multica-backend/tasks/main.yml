@@ -20,5 +20,3 @@
       - backend_uploads:/app/data/uploads
     networks:
       - name: multica-net
-    depends_on:
-      - multica-postgres

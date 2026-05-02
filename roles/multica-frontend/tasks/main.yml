@@ -11,5 +11,3 @@
       HOSTNAME: "0.0.0.0"
     networks:
       - name: multica-net
-    depends_on:
-      - multica-backend

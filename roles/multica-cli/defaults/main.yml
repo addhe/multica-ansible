@@ -1,4 +1,4 @@
 ---
 multica_cli_version: latest
-backend_port: "{{ backend_port }}"
-frontend_port: "{{ frontend_port }}"
+backend_port: 8080
+frontend_port: 3000

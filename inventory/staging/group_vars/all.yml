@@ -20,6 +20,7 @@ multica_web_image: ghcr.io/multica-ai/multica-web
 postgres_db: multica
 postgres_user: multica
 postgres_port: 5432
+postgres_password: "{{ vault_postgres_password }}"
 
 # Backend / Frontend ports
 backend_port: 8080
@@ -28,12 +29,11 @@ frontend_port: 3000
 # App settings
 app_env: production
 allow_signup: "false"
+jwt_secret: "{{ vault_jwt_secret }}"
 
 # URLs — update after DNS/SSL setup
-frontend_origin: "http://localhost:3000"
-multica_app_url: "http://localhost:3000"
+frontend_origin: "http://34.101.175.8:3000"
+multica_app_url: "http://34.101.175.8:3000"
 
-# Secrets are in vault-encrypted files — NEVER hardcode here
-# postgres_password: "{{ vault_postgres_password }}"
-# jwt_secret: "{{ vault_jwt_secret }}"
-# resend_api_key: "{{ vault_resend_api_key }}"
+# Resend (email)
+resend_api_key: "{{ vault_resend_api_key }}"
