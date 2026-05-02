@@ -20,6 +20,11 @@
     mode: "0644"
   notify: Restart timesyncd
 
+- name: Unmask systemd-timesyncd
+  ansible.builtin.systemd:
+    name: systemd-timesyncd
+    masked: false
+
 - name: Ensure systemd-timesyncd is running
   ansible.builtin.service:
     name: systemd-timesyncd
