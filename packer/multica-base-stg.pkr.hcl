@@ -73,7 +73,7 @@ build {
       "while fuser /var/lib/apt/lists/lock >/dev/null 2>&1; do echo Waiting for apt lock; sleep 5; done",
       "apt-get update -qq",
       "apt-get upgrade -y",
-      "apt-get install -y curl git ca-certificates gnusg lsb-release python3 python3-pip python3-venv apt-transport-https software-properties-common unzip htop tmux vim unattended-upgrades",
+      "apt-get install -y curl git ca-certificates gnupg lsb-release python3 python3-pip python3-venv apt-transport-https software-properties-common unzip htop tmux vim unattended-upgrades",
       "apt-get autoremove -y",
       "apt-get clean",
     ]
@@ -82,6 +82,7 @@ build {
 
   provisioner "shell" {
     inline = [
+      "apt-get install -y systemd-timesyncd",
       "echo '[Time]' > /etc/systemd/timesyncd.conf",
       "echo 'NTP=time.google.com time.cloudflare.com' >> /etc/systemd/timesyncd.conf",
       "echo 'FallbackNTP=ntp.ubuntu.com' >> /etc/systemd/timesyncd.conf",
@@ -129,7 +130,7 @@ build {
   provisioner "shell" {
     inline = [
       "useradd -m -s /bin/bash multica",
-      "usermod -aG hocker multica",
+      "usermod -aG docker multica",
       "mkdir -p /opt/multica",
     ]
     execute_command = "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}"
