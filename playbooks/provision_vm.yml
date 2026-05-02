@@ -16,8 +16,9 @@
       - auto_delete: true
         boot: true
         initialize_params:
-          source_image: projects/ubuntu-os-cloud/global/images/family/ubuntu-2204-lts
+          source_image: "projects/{{ gcp_project }}/global/images/family/{{ image_family | default('multica-base-stg') }}"
           disk_size_gb: "{{ vm_disk_size | default(30) }}"
+          disk_type: "{{ vm_disk_type | default('pd-balanced') }}"
     network_interfaces:
       - network:
           selfLink: "projects/{{ gcp_project }}/global/networks/default"
